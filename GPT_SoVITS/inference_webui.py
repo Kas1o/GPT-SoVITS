@@ -492,7 +492,7 @@ def merge_short_text_in_array(texts, threshold):
 ##ref_wav_path+prompt_text+prompt_language+text(单个)+text_language+top_k+top_p+temperature
 # cache_tokens={}#暂未实现清理机制
 cache= {}
-def get_tts_wav(ref_wav_path, prompt_text, prompt_language, text, text_language, how_to_cut=i18n("不切"), top_k=20, top_p=0.6, temperature=0.6, ref_free = False,speed=1,if_freeze=False,inp_refs=None,sample_steps=8):
+def get_tts_wav(ref_wav_path, prompt_text, prompt_language, text, text_language, how_to_cut=i18n("不切"), top_k=20, top_p=0.6, temperature=0.6, ref_free = False,speed=1,if_freeze=False,inp_refs=None,sample_steps=8, parse_language = True):
     global cache
     if ref_wav_path:pass
     else:gr.Warning(i18n('请上传参考音频'))
@@ -503,8 +503,8 @@ def get_tts_wav(ref_wav_path, prompt_text, prompt_language, text, text_language,
         ref_free = True
     if model_version=="v3":ref_free=False#s2v3暂不支持ref_free
     t0 = ttime()
-    prompt_language = dict_language[prompt_language]
-    text_language = dict_language[text_language]
+    prompt_language = dict_language[prompt_language] if parse_language else prompt_language
+    text_language = dict_language[text_language] if parse_language else text_language
 
 
     if not ref_free:
